@@ -1,0 +1,132 @@
+#include <stdio.h>
+#include <string.h>
+
+// Estrutura para armazenar os dados da carta
+struct Carta {
+    char estado[3];
+    char codigo[5];
+    char nome[50];
+    int populacao;
+    float area;
+    float pib;
+    int pontos_turisticos;
+};
+
+// Função para cadastrar uma carta
+void cadastrarCarta(struct Carta *c) {
+    printf("Digite o estado (UF): ");
+    scanf("%2s", c->estado);
+
+    printf("Digite o código da carta: ");
+    scanf("%4s", c->codigo);
+
+    printf("Digite o nome da cidade: ");
+    scanf(" %[\
+]", c->nome);
+
+    printf("Digite a população: ");
+    scanf("%d", &c->populacao);
+
+    printf("Digite a área (km²): ");
+    scanf("%f", &c->area);
+
+    printf("Digite o PIB (em bilhões): ");
+    scanf("%f", &c->pib);
+
+    printf("Digite o número de pontos turísticos: ");
+    scanf("%d", &c->pontos_turisticos);
+}
+
+// Função para exibir os dados da carta
+void exibirCarta(struct Carta c) {
+    printf("\nEstado: %s", c.estado);
+    printf("\nCódigo: %s", c.codigo);
+    printf("\nCidade: %s", c.nome);
+    printf("\nPopulação: %d", c.populacao);
+    printf("\nÁrea: %.2f km²", c.area);
+    printf("\nPIB: %.2f bilhões", c.pib);
+    printf("\nPontos Turísticos: %d\n", c.pontos_turisticos);
+}
+
+// Função para comparar duas cartas com base no atributo escolhido
+void compararCartas(struct Carta c1, struct Carta c2, int opcao) {
+    switch (opcao) {
+        case 1:
+            if (c1.populacao > c2.populacao)
+                printf("%s venceu pela População!\n", c1.nome);
+            else if (c2.populacao > c1.populacao)
+                printf("%s venceu pela População!\n", c2.nome);
+            else
+                printf("Empate na População!\n");
+            break;
+        case 2:
+            if (c1.area > c2.area)
+                printf("%s venceu pela Área!\n", c1.nome);
+            else if (c2.area > c1.area)
+                printf("%s venceu pela Área!\n", c2.nome);
+            else
+                printf("Empate na Área!\n");
+            break;
+        case 3:
+            if (c1.pib > c2.pib)
+                printf("%s venceu pelo PIB!\n", c1.nome);
+            else if (c2.pib > c1.pib)
+                printf("%s venceu pelo PIB!\n", c2.nome);
+            else
+                printf("Empate no PIB!\n");
+            break;
+        case 4:
+            if (c1.pontos_turisticos > c2.pontos_turisticos)
+                printf("%s venceu pelos Pontos Turísticos!\n", c1.nome);
+            else if (c2.pontos_turisticos > c1.pontos_turisticos)
+                printf("%s venceu pelos Pontos Turísticos!\n", c2.nome);
+            else
+                printf("Empate nos Pontos Turísticos!\n");
+            break;
+        case 5: // densidade populacional -> menor vence
+        {
+            float dens1 = c1.populacao / c1.area;
+            float dens2 = c2.populacao / c2.area;
+            if (dens1 < dens2)
+                printf("%s venceu pela Densidade Populacional!\n", c1.nome);
+            else if (dens2 < dens1)
+                printf("%s venceu pela Densidade Populacional!\n", c2.nome);
+            else
+                printf("Empate na Densidade Populacional!\n");
+            break;
+        }
+        default:
+            printf("Opção inválida!\n");
+    }
+}
+
+int main() {
+    struct Carta carta1, carta2;
+
+    printf("Cadastro da Carta 1:\n");
+    cadastrarCarta(&carta1);
+
+    printf("\nCadastro da Carta 2:\n");
+    cadastrarCarta(&carta2);
+
+    printf("\n=== Cartas Cadastradas ===\n");
+    printf("\nCarta 1:");
+    exibirCarta(carta1);
+    printf("\nCarta 2:");
+    exibirCarta(carta2);
+
+    int opcao;
+    printf("\nEscolha o atributo para comparação:\n");
+    printf("1 - População\n");
+    printf("2 - Área\n");
+    printf("3 - PIB\n");
+    printf("4 - Pontos Turísticos\n");
+    printf("5 - Densidade Populacional (menor vence)\n");
+    printf("Opção: ");
+    scanf("%d", &opcao);
+
+    printf("\nResultado da Comparação:\n");
+    compararCartas(carta1, carta2, opcao);
+
+    return 0;
+}
